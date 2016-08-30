@@ -40,25 +40,36 @@ public function caracteres_especiales($url)
     }
     
     
-    // CONFIGURACION CORRECTA DE PHPMAILER PARA GMAIL
+    // CONFIGURACION CORRECTA DE PHPMAILER PARA GMAIL CON SMTP-RELAY PUERTO 587 CON TLS
     
-    $mail = new PHPMailer(); // create a new object
-$mail->IsSMTP(); // enable SMTP
-$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-$mail->SMTPAuth = true; // authentication enabled
-$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
-$mail->Host = "smtp.gmail.com";
-$mail->Port = 465; // or 587
-$mail->IsHTML(true);
-$mail->Username = "email@gmail.com";
-$mail->Password = "password";
-$mail->SetFrom("example@gmail.com");
-$mail->Subject = "Test";
-$mail->Body = "hello";
-$mail->AddAddress("email@gmail.com");
+    $mail = new PHPMailer();
+        $mail->IsSMTP();
+        //$mail->SMTPAuth = true;
+        /* NECESARIO PARA GMAIL */
+        $mail->SMTPSecure = 'tls';
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
 
- if(!$mail->Send()) {
-    echo "Mailer Error: " . $mail->ErrorInfo;
- } else {
-    echo "Message has been sent";
- }
+
+        for ($i=0,$n=count($to);$i<$n;$i++)
+        $mail->AddAddress($to[$i]);
+
+        $mail->AddAddress("silva.luis.i.18@gmail.com");
+        $mail->AddAddress("luis.silva@codice.com");
+        $mail->AddAddress("cris@codice.com");
+
+        $mail->Body = $message;
+        $mail->Subject = $subject;
+
+
+        /*$mail->Host = "mail.codice.com";
+        $mail->Port     = 25;*/
+        $mail->Host     = "smtp-relay.gmail.com";
+        $mail->Port     = 587;
+        $mail->From = "contacto@starmedica.com";
+        $mail->FromName = "Hospitales Star Médica";
+        /*$mail->Username = "li.silva.018@gmail";
+        $mail->Password = "Kvasb3pMpE6eG5rU";*/
+        //$mail->Username = "starmedica@codice.com";
+        //$mail->Password = "c0d1c32375";
+        $result = $mail->Send();
