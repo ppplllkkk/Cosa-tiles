@@ -1,5 +1,13 @@
-# Cosa-tiles
+# Cosas-utiles
 Snipets y funciones que ayudan en el día a día
+
+#liberar git en producción
+-crear rama para liberar
+-vaciar rama en local
+-añadir archivos de liberacion
+-respaldar produccion
+-hacer el commit y psuh de la rama
+listo
 
 public function caracteres_especiales($url)
     {
