@@ -81,3 +81,31 @@ public function caracteres_especiales($url)
         //$mail->Username = "starmedica@codice.com";
         //$mail->Password = "c0d1c32375";
         $result = $mail->Send();
+        
+        
+/* EJEMPLO DE AJAX CON SERVICIO REST API */
+
+$.ajax({
+                            url:'payu',
+                            type: 'POST',
+                            data: $("#datosTarjeta").serialize(),
+                            success:function(data){
+                                console.log(data);
+
+                                  alertaObj = {
+                                                titulo:'Pago Tarjeta de crédito',
+                                                mensaje:'Redirigiendo a sitio web de PayU para validar el proceso de compra.',
+                                                btnOk:false,
+                                                preload:true
+                                            };
+                                  parent.postMessage({ type: "alertaApp",alerta : alertaObj, timeout:6000, redirect: '<?php echo $link; ?>webapp/cuenta.html' }, "*");
+
+                                  setTimeout(function(){
+                                    parent.postMessage({ type: "openExternal",url:'http://www.payulatam.com/mexico/comercios/como-funciona-el-sistema-de-pago-electronico' }, "*");
+                                  },4000);
+
+                            },
+                            error:function (){
+                                alert('error en el envio del ajax');
+                            }
+                        });
