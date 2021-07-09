@@ -24,7 +24,40 @@ INSTALL MAGENTO
 
 php bin/magento setup:install --base-url=http://localhost/magento/ --db-host=localhost --db-name=magento --db-user=magento2user --db-password=Softtek#2021 --admin-firstname=Luis --admin-lastname=Silva --admin-email=silva.luis.i.18@gmail.com --admin-user=admin --admin-password=admin@123
 
+/*NOTE IN CASE OF MEESY FRONTEND AND 404 ADMIN ERROR*/ 
 
+First of all, apply proper permissions, enable apache rewrite_module and refresh apache server.
+
+chmod -R 777 /var/www/html/MAGENTO_2_ROOT_DIRECTORY/
+
+sudo a2enmod rewrite
+
+sudo service apache2 restart
+For messy frontend, run following command from Magento root:
+
+php bin/magento setup:static-content:deploy
+Now clear var directory except .htaccess file and check admin. If you get 404 page, there may be an issue of Symlink. Fot this, Edit apache config file
+
+sudo gedit /etc/apache2/apache2.conf
+and replace this code :
+
+<Directory /var/www/>
+Options Indexes FollowSymLinks
+AllowOverride none
+Require all granted
+with
+
+<Directory /var/www/>
+Options Indexes FollowSymLinks
+AllowOverride All
+Require all granted
+Note: changed AllowOverride none to AllowOverride All
+
+Now restart apache sudo service apache2 restart and check admin. This should fix admin 404 issue.
+
+Also make sure, you don't leave /app/etc/ directory writeable
+
+/****************************************************/
 
 CREATE ADMIN USER
 
