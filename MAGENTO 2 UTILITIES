@@ -1,0 +1,51 @@
+Useful Magento CLI commands
+
+DOWNLOAD MAGENTO
+
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.7 .
+
+
+INSTALL MAGENTO
+
+bin/magento setup:install --base-url=http://127.0.0.1/magento/ \
+--db-host=localhost --db-name=magento --db-user=root --db-password=root@Kvasb3pM. \
+--admin-firstname=Luis --admin-lastname=Silva --admin-email=silva.luis.i.18@gmail.com \
+--admin-user=admin --admin-password=admin@123
+
+
+
+CREATE ADMIN USER
+
+bin/magento admin:user:create --admin-user="admin" --admin-password="admin@123" --admin-email="silva.luis.i.18@gmail.com" --admin-firstname="Admin" --admin-lastname="Admin"
+
+
+
+CHANGE BASE URL
+
+bin/magento setup:store-config:set --base-url="http://magento.com/"
+bin/magento setup:store-config:set --base-url-secure="https://magento.com/"
+
+
+UPGRADE CODE (keep generated files)
+
+bin/magento setup:upgrade -vvv --keep-generated && chmod -R 777 var/ pub/ generated/ && chown -R www-data .
+
+
+
+DEVELOPER DEPLOYMENT
+
+echo ------------------------STARTING------------------------ && echo Upgrading... && bin/magento setup:upgrade >var/log/developer_deployment.log && echo Deploying... && bin/magento setup:static-content:deploy --jobs=100 -vvv -f >var/log/developer_deployment.log 2>var/log/developer_deployment.log && echo Giving_permissions... && chmod -R 777 var/ pub/ generated/ >var/log/developer_deployment.log && chown -R www-data . >var/log/developer_deployment.log && echo ------------------------DONE-------------------------
+
+
+
+
+
+PRODUCTION DEPLOYMENT
+
+echo ------------------------STARTING------------------------ && echo Upgrading... && bin/magento setup:upgrade >var/log/developer_deployment.log && echo Deploying... && bin/magento deploy:mode:set production -vvv  >var/log/developer_deployment.log 2>var/log/developer_deployment.log && echo Giving_permissions... && chmod -R 777 var/ pub/ generated/ >var/log/developer_deployment.log && chown -R www-data . >var/log/developer_deployment.log && echo ------------------------DONE-------------------------
+
+
+
+PRODUCTION DEPLOYMENT (skip compilation)
+
+echo ------------------------STARTING------------------------ && echo Upgrading... && bin/magento setup:upgrade >var/log/developer_deployment.log && echo Deploying... && bin/magento setup:static-content:deploy --jobs=100 -vvv -f >var/log/developer_deployment.log 2>var/log/developer_deployment.log && bin/magento deploy:mode:set production -s && echo Giving_permissions... && chmod -R 777 var/ pub/ generated/ >var/log/developer_deployment.log && chown -R www-data . >var/log/developer_deployment.log && echo ------------------------DONE-------------------------
