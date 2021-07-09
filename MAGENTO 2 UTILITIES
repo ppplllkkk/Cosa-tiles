@@ -2,15 +2,20 @@ Useful Magento CLI commands
 
 DOWNLOAD MAGENTO
 
-composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.2.7 .
+/* YOU CAN SPECIFY THE MAGENTO VERSION */
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.3.6 .
 
+NECESARY PERMISIONS
+chown -R www-data:www-data /var/www/magento2/ 
+chmod 777 -R var
+chmod 777 -R generated
+chmod 777 -R app/etc
+chmod 777 -R PUB/
+rm -rf var/cache/* var/page_cache/* var/generation/*
 
 INSTALL MAGENTO
 
-bin/magento setup:install --base-url=http://127.0.0.1/magento/ \
---db-host=localhost --db-name=magento --db-user=root --db-password=root@Kvasb3pM. \
---admin-firstname=Luis --admin-lastname=Silva --admin-email=silva.luis.i.18@gmail.com \
---admin-user=admin --admin-password=admin@123
+php bin/magento setup:install --base-url=http://127.0.0.1/magento/ --db-host=localhost --db-name=magento --db-user=magento2user --db-password=Softtek#2021 --admin-firstname=Luis --admin-lastname=Silva --admin-email=silva.luis.i.18@gmail.com --admin-user=admin --admin-password=admin@123
 
 
 
